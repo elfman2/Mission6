@@ -3,7 +3,7 @@ from tkinter import N
 
 user_input  = input("Choississez une commande. Pour voir toutes les commandes disponibles, entrez 'help'")
 
-def help():
+def help(): #Je sais qu'on peut le faire en un print, mais je ne sais pas comment. J'ai essayé mais j'avais des problèmes de synthaxes
     if user_input == 'help':
         print("file <name>: spécifie le nom d'un fichier sur lequel l'outil doit travailler à partir de ce moment")
         print("info: montre le nombre de lignes et de caractères du fichier")
