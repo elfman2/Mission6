@@ -100,7 +100,11 @@ def sum():
             except:
                 print("Vous devez entrer un numéro")
                 
-            ask = input("Voulez-vous continuez? Entrez 'oui' si vous souhaitez continuer, sinon entrez 'non'")
+                
+            try:
+                ask = input("Voulez-vous continuez? Entrez 'oui' si vous souhaitez continuer, sinon entrez 'non'")
+            except:
+                print("Vous devez entrer 'oui' ou 'non'")
             yes = True
             if ask == "oui":
                 while yes:
@@ -118,9 +122,39 @@ def sum():
             elif ask == "non":
                 print(total)
                 run2 = False
-'''def avg():''''''
+def avg():
+    """
+    Calculate the average of n numbers
+    """
+    if user_input == 'avg':
+        run = True
+        total = 0
+        counter = 0
+        while run:
+            number = float(input("Entrez un nombre "))
+            number2 = float(input("Entrez un nombre "))
+            counter += 2
+            total = total + number + number2
+            ask = input("Souhaitez-vous continuer? Entrez 'oui' ou 'non'")
+            if ask == 'oui':
+                yes = True
+                while yes:
+                    number3 = float(input("Entrez un nombre "))
+                    counter += 1
+                    total = (total + number3)
+                    ask2 = input("Souhaitez-vous continuer? Entrez 'oui' ou 'non'")
+                    if ask2 == 'yes':
+                        continue
+                    elif ask2 == 'non':
+                        print(total/counter)
+                        yes = False
+                        run = False
+            elif ask == 'non':
+                print(total/counter)
+                run = False
     
 
 
 help()
 sum()
+avg()
