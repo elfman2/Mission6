@@ -64,9 +64,6 @@ if __name__ == '__main__':
     for l in CLI(options.filename):
         parse_command(l)
 
-from tkinter import N
-
-
 user_input  = input("Choississez une commande. Pour voir toutes les commandes disponibles, entrez 'help'")
 
 def help():
