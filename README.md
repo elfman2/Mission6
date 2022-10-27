@@ -1,6 +1,8 @@
 # Mission 6
 [Mission 6 description](https://syllabus-interactif.info.ucl.ac.be/syllabus/info1-exercises/PART_II/MISSION_6/mission)  
 
+## A rendre pour le 2/11
+
 ## CLI  
 
 - Ligne de commande interractive
