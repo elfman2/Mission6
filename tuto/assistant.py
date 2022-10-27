@@ -9,8 +9,9 @@ def CLI_interactive(dummy=None):
       yields: a line from stdin
     """
     for line in sys.stdin:
-        if line != "exit":
-            yield line
+      yield line
+      sys.stdout.write('> ')
+      sys.stdout.flush()
 
 
 def CLI_batch(file):
@@ -32,8 +33,50 @@ def CLI_batch(file):
 def template_command(args):
     print(args)
 
+def file_command(args):
+    print(args)
 
-Commands = {"command": template_command}
+def info_command(args):
+    print(args)
+
+def dictionary_command(args):
+    print(args)
+
+def search_command(args):
+    print(args)
+
+def sum_command(args):
+    print(args)
+
+def avg_command(args):
+    print(args)
+
+def help_command(args):
+    h = '''file <name>: spécifie le nom d'un fichier sur lequel l'outil doit travailler à partir de ce moment
+	info: montre le nombre de lignes et de caractères du fichier
+	file <name>: spécifie le nom d'un fichier sur lequel l'outil doit travailler à partir de ce moment
+	dictionary: utilise le fichier comme dictionnaire à partir de maintenant
+	search <word>: détermine si le mot est dans le dictionnaire
+	sum <number1> ... <numbern>: calcule la somme des nombres spécifiés
+	avg <number1> ... <numbern>: calcule la moyenne des nombres spécifiés
+	help: montre des instructions à l'utilisateur"
+	exit: arrête l'outil'''
+    print(h)
+
+def exit_command(args):
+  sys.exit(0)
+
+Commands = {
+  "command": template_command,
+  "exit": exit_command,
+  "file": file_command,
+  "info": info_command,
+  "dictionary": dictionary_command,
+  "search": search_command,
+  "sum":sum_command,
+  "avg":avg_command,
+  "help":help_command
+}
 
 
 def parse_command(line):
@@ -46,6 +89,8 @@ def parse_command(line):
     try:
         cmd = line.split()
         Commands[cmd[0]](cmd[1:])
+    except SystemExit:
+        raise
     except:
         print("unrecognized command "+cmd[0])
 
@@ -61,46 +106,8 @@ if __name__ == '__main__':
     (options, args) = parser.parse_args()
 
     CLI = CLI_batch if options.filename is not None else CLI_interactive
+
     for l in CLI(options.filename):
         parse_command(l)
 
-from tkinter import N
 
-
-user_input  = input("Choississez une commande. Pour voir toutes les commandes disponibles, entrez 'help'")
-
-def help():
-    if user_input == 'help':
-        print("file <name>: spécifie le nom d'un fichier sur lequel l'outil doit travailler à partir de ce moment")
-        print("info: montre le nombre de lignes et de caractères du fichier")
-        print("file <name>: spécifie le nom d'un fichier sur lequel l'outil doit travailler à partir de ce moment")
-        print("dictionary: utilise le fichier comme dictionnaire à partir de maintenant")
-        print("search <word>: détermine si le mot est dans le dictionnaire")
-        print("sum <number1> ... <numbern>: calcule la somme des nombres spécifiés")
-        print("avg <number1> ... <numbern>: calcule la moyenne des nombres spécifiés")
-        print("help: montre des instructions à l'utilisateur")
-        print("exit: arrête l'outil")
-
-def sum(num):
-    if user_input == "sum":
-        run2 = True
-        total = 0
-        
-        num2 = 0
-        while run2:
-            user_number = int(input("Entrez un numéro"))
-            num = user_number
-            user_number2 = int(input("Entrez un second numéro"))
-            num2 = user_number2
-            ask = input("Voulez-vous continuez? Entrez 'oui' si vous souhaitez continuer, sinon entrez 'non'")
-            total = total + num + num2
-            '''if ask == "oui": 
-            #elif ask == "non":
-                total = total + num + num2
-                print(total)
-                run2 = False'''
-
-
-
-help()
-sum(0)
