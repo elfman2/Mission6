@@ -1,16 +1,17 @@
-import sys
-from optparse import OptionParser
+import sys # systeme, permet acceder a l'entree du clavier et a la sortie sur ecran
+from optparse import OptionParser # 
 
 
-def CLI_interactive(dummy):
+def CLI_interactive(dummy): #tout ce que on met sur le clavier va dans stdin
     """
     Command line interface interactive generator
-
       yields: a line from stdin
     """
     for line in sys.stdin:
         if line != "exit":
             yield line
+        else:
+            return
 
 
 def CLI_batch(file):
@@ -18,13 +19,10 @@ def CLI_batch(file):
    Command line interface batch generator
      'exit' command ignored in batch mode. Existing at
      end of batch file.
-
       Args: file input batch command file
-
       yields: a file line
-
     """
-    with open(file, 'r') as f:
+    with open(file, 'r') as f: #va mettre dans f une reference vers le fichier file
         for line in f:
             yield line
 
@@ -82,46 +80,19 @@ def help():
         help: montre des instructions à l'utilisateur
         exit: arrête l'outil""")
         
+def sum1(): # merci pour l'aide
+    list = []
+    user_input = (input("""
+Entrez des numéros.
+Note: Après chaque numéro, faites espace au lieu de 'entrer' pour additionner les nombres.
+Faites 'Entrer' pour afficher le resulat.""" ))
+    tableau = user_input.split()
+    convert = [float(i) for i in tableau]
+    x = sum(convert)
+    print(x)
+        
+        
     
-
-def sum():
-    """
-    Find the result of an addition with n numbers.
-    """
-    if user_input == "sum":
-        run2 = True
-        total = 0
-        num2 = 0
-        while run2:
-            try:
-                user_number = float(input("Entrez un numéro "))
-                user_number2 = float(input("Entrez un numéro "))
-                total = total + user_number + user_number2
-            except:
-                print("Vous devez entrer un numéro")
-                
-                
-            try:
-                ask = input("Voulez-vous continuez? Entrez 'oui' si vous souhaitez continuer, sinon entrez 'non'")
-            except:
-                print("Vous devez entrer 'oui' ou 'non'")
-            yes = True
-            if ask == "oui":
-                while yes:
-                    user_number3 = float(input("Entrez un numéro "))
-                    total += user_number3
-                    ask2 = input("Si vous voulez continuer, entrez oui. Sinon entrez non")
-                    if ask2 == 'yes':
-                        continue
-                    elif ask2 == 'non':
-                        print(total)
-                        yes = False
-                        run2 = False
-                break
-                
-            elif ask == "non":
-                print(total)
-                run2 = False
 def avg():
     """
     Calculate the average of n numbers
@@ -154,7 +125,11 @@ def avg():
                 run = False
     
 
-
 help()
-sum()
+sum1()
 avg()
+
+
+
+
+
