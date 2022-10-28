@@ -47,23 +47,20 @@ def file_command(args):
     global file
     try:
       if len(args)!=1:
-        print ('please specify file name')
-        help()
+        return 'Please specify file name\n{h}'.format(h=help())
       else:
         file = open(args[0],'r')
-        print('opened '+args[0])
+        return 'Opened {file}'.format(file=args[0])
     except:
-      print ("Cannot open file " + args[0])
-      help()
+      return 'Cannot open file {file}\n{h}'.format(file=args[0],h=help())
 
 def help():
-    help_command(None)
+    return help_command(None)
 
 def is_file_opened():
     global file
     if file is None:
-      print("Please call file command to select a file")
-      help()
+      print ('Please call file command to select a file\n{h}'.format(h=help()))
       return False
     return True
 
@@ -71,29 +68,36 @@ def info_command(args):
     global file
     if is_file_opened():
       lines = file.readlines()
-      print('Number of lines: '+str(len(lines)))
+      return 'Number of lines: {lines}'.format(lines=str(len(lines)))
+    return ''
 
-dico = dict()
+dico = None
 
 def dictionary_command(args):
     global file
     global dico
     if is_file_opened():
+      dico={}
       for l in file:
         dico[l.split(',')[0]]=''
+      return 'Dictionary loaded'
+    return ''
 
 def search_command(args):
     global dico
-    print ('{name} {presence} in dictionary'.format(name=args[0],presence='is present' if args[0] in dico else 'is absent'))
+    if dico is None:
+      return 'Dictionary not loaded !\n{h}'.format(h=help())
+    else:
+      return '{name} {presence} in dictionary'.format(name=args[0],presence='is present' if args[0] in dico else 'is absent')
 
 def sum_list(args):
     return sum([ ast.literal_eval(num) for num in args ])
 
 def sum_command(args):
-    print('The sum {expression} = {result}'.format(expression='+'.join(args),result=str(sum_list(args))))
+    return 'The sum {expression} = {result}'.format(expression='+'.join(args),result=str(sum_list(args)))
 
 def avg_command(args):
-    print('The average of {expression} = {result}'.format(expression='+'.join(args),result=str(sum_list(args)/len(args))))
+    return 'The average of {expression} = {result}'.format(expression='+'.join(args),result=str(sum_list(args)/len(args)))
 
 def help_command(args):
     h = '''
@@ -107,7 +111,7 @@ def help_command(args):
 	avg <number1> ... <numbern>: calcule la moyenne des nombres spécifiés
 	help: montre des instructions à l'utilisateur"
 	exit: arrête l'outil'''
-    print(h)
+    return h
 
 def exit_command(args):
   if file is not None:
@@ -138,7 +142,7 @@ def parse_command(line):
     '''
     try:
         cmd = line.split()
-        Commands[cmd[0]](cmd[1:])
+        print(Commands[cmd[0]](cmd[1:]))
     except SystemExit:
         raise
     except:
