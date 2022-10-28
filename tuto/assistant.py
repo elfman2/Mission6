@@ -90,10 +90,10 @@ def sum_list(args):
     return sum([ ast.literal_eval(num) for num in args ])
 
 def sum_command(args):
-    print('The sum ' + ('+'.join(args)) + ' = ' + str(sum_list(args)))
+    print('The sum {expression} = {result}'.format(expression='+'.join(args),result=str(sum_list(args))))
 
 def avg_command(args):
-    print('The average of ' + ('+'.join(args)) + ' = ' + str(sum_list(args)/len(args)))    
+    print('The average of {expression} = {result}'.format(expression='+'.join(args),result=str(sum_list(args)/len(args))))
 
 def help_command(args):
     h = '''
@@ -141,8 +141,8 @@ def parse_command(line):
         Commands[cmd[0]](cmd[1:])
     except SystemExit:
         raise
-#    except:
-#        print("unrecognized command "+cmd[0] if len(cmd)!=0 else '')
+    except:
+        print("unrecognized command "+cmd[0] if len(cmd)!=0 else '')
 
 
 if __name__ == '__main__':
