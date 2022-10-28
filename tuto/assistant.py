@@ -43,6 +43,7 @@ def file_command(args):
       post  file global var set with file descriptor
          error cases: file name unspecified, file not found
     """
+    global file
     try:
       if len(args)!=1:
         print ('please specify file name')
@@ -57,8 +58,19 @@ def file_command(args):
 def help():
     help_command(None)
 
+def is_file_opened():
+    global file
+    if file is None:
+      print("Please call file command to select a file")
+      help()
+      return False
+    return True
+
 def info_command(args):
-    print(args)
+    global file
+    if is_file_opened():
+      lines = file.readlines()
+      print('Number of lines: '+str(len(lines)))
 
 def dictionary_command(args):
     print(args)
