@@ -72,11 +72,18 @@ def info_command(args):
       lines = file.readlines()
       print('Number of lines: '+str(len(lines)))
 
+dico = dict()
+
 def dictionary_command(args):
-    print(args)
+    global file
+    global dico
+    if is_file_opened():
+      for l in file:
+        dico[l.split(',')[0]]=''
 
 def search_command(args):
-    print(args)
+    global dico
+    print ('{name} {presence} in dictionary'.format(name=args[0],presence='is present' if args[0] in dico else 'is absent'))
 
 def sum_command(args):
     print(args)
