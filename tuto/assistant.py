@@ -1,6 +1,9 @@
 import sys
 from optparse import OptionParser
 
+def prompt():
+    sys.stdout.write('> ')
+    sys.stdout.flush()
 
 def CLI_interactive(dummy=None):
     """
@@ -8,10 +11,10 @@ def CLI_interactive(dummy=None):
 
       yields: a line from stdin
     """
+    prompt()
     for line in sys.stdin:
       yield line
-      sys.stdout.write('> ')
-      sys.stdout.flush()
+      prompt()
 
 
 def CLI_batch(file):
@@ -29,12 +32,30 @@ def CLI_batch(file):
         for line in f:
             yield line
 
+''' file descriptor '''
+file = None
 
-def template_command(args):
-    print(args)
 
 def file_command(args):
-    print(args)
+    """
+    Try  to open the file in args
+      Args args[0] file name
+      post  file global var set with file descriptor
+         error cases: file name unspecified, file not found
+    """
+    try:
+      if len(args)!=1:
+        print ('please specify file name')
+        help()
+      else:
+        file = open(args[0],'r')
+        print('opened '+args[0])
+    except:
+      print ("Cannot open file " + args[0])
+      help()
+
+def help():
+    help_command(None)
 
 def info_command(args):
     print(args)
@@ -52,7 +73,9 @@ def avg_command(args):
     print(args)
 
 def help_command(args):
-    h = '''file <name>: spécifie le nom d'un fichier sur lequel l'outil doit travailler à partir de ce moment
+    h = '''
+  This is the assistant MI-6 your majesty
+	file <name>: spécifie le nom d'un fichier sur lequel l'outil doit travailler à partir de ce moment
 	info: montre le nombre de lignes et de caractères du fichier
 	file <name>: spécifie le nom d'un fichier sur lequel l'outil doit travailler à partir de ce moment
 	dictionary: utilise le fichier comme dictionnaire à partir de maintenant
@@ -64,11 +87,15 @@ def help_command(args):
     print(h)
 
 def exit_command(args):
+  if file is not None:
+    file.close()
+  print ('bye!')
   sys.exit(0)
 
 Commands = {
-  "command": template_command,
   "exit": exit_command,
+  "bye": exit_command, #alias for exit
+  "quit": exit_command, # alias for exit
   "file": file_command,
   "info": info_command,
   "dictionary": dictionary_command,
@@ -92,7 +119,7 @@ def parse_command(line):
     except SystemExit:
         raise
     except:
-        print("unrecognized command "+cmd[0])
+        print("unrecognized command "+cmd[0] if len(cmd)!=0 else '')
 
 
 if __name__ == '__main__':
