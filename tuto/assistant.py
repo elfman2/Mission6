@@ -1,4 +1,5 @@
 import sys
+import ast
 from optparse import OptionParser
 
 def prompt():
@@ -85,11 +86,14 @@ def search_command(args):
     global dico
     print ('{name} {presence} in dictionary'.format(name=args[0],presence='is present' if args[0] in dico else 'is absent'))
 
+def sum_list(args):
+    return sum([ ast.literal_eval(num) for num in args ])
+
 def sum_command(args):
-    print(args)
+    print('The sum ' + ('+'.join(args)) + ' = ' + str(sum_list(args)))
 
 def avg_command(args):
-    print(args)
+    print('The average of ' + ('+'.join(args)) + ' = ' + str(sum_list(args)/len(args)))    
 
 def help_command(args):
     h = '''
@@ -137,8 +141,8 @@ def parse_command(line):
         Commands[cmd[0]](cmd[1:])
     except SystemExit:
         raise
-    except:
-        print("unrecognized command "+cmd[0] if len(cmd)!=0 else '')
+#    except:
+#        print("unrecognized command "+cmd[0] if len(cmd)!=0 else '')
 
 
 if __name__ == '__main__':
