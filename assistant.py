@@ -4,14 +4,16 @@ import ast
 error = False
 file_handle = None
 dico = None
-
-def file1(args):
+file1  = False
+def file_command(args):
     global file_handle
+    global file1
     try:
         if len(args) != 1:
             return "Il ne faut entrer qu'un seul argument "
-        else:
+        elif len(args) != 1 and file1 == False:
             file_handle = open(args[0], 'r')
+            file1 = True
             return f"Fichier {args} défini comme fichier de travail "
     except:
         return f"Impossible de trouver le fichier {args} "
@@ -29,7 +31,7 @@ def CLI_interactive():
         prompt()
         yield line
 
-def dictionary(args):
+def dictionary_command(args):
     global dico
     global file_handle
     global error
@@ -48,13 +50,13 @@ def dictionary(args):
         return f"Impossible de trouver le fichier {args}"
         error = True
 
-def search(args):
+def search_command(args):
     if args in dico:
         return f"{args} se trouve dans le dictionnaire"
     else:
         return f"{args} ne se trouve pas dans le dictionnaire"
         
-def help():
+def help_command():
     
     """
     Prints all the commands in the CLI to the user
@@ -85,7 +87,7 @@ Faites 'Entrer' pour afficher le resulat.""" ))
         print('Veuillez entrer des numéro')
         error = True
 
-def sum1():
+def sum_command():
     global error
     sum_result = calcul()
     if error == False:
@@ -93,19 +95,41 @@ def sum1():
     else:
         error = False
         
-def avg1():
+def avg_command():
     global error
     sum_result = calcul()
     if error == False:   
         return sum_result[0]/sum_result[1]
     else:
         error = False
-    
+
+def info_command(args):
+    f = file_handle
+    num_lines = len(f.readlines())
+    f.seek(0)
+    num_words  = f.read()
+    num_words2 = len(num_words)
+    return f"Il y a {num_lines} lignes et {num_words2} mots."
     
 
-        
+def exit_command():
+    global file1
+    if file1 == True:
+        file_handle.close()
+    else:
+        return "Aucun fichier n'est ouvert actuellement "
     
+'''all_commands ={
+"help_command":
+"sum_command":
+"avg_command":
+"search_command":
+"dictionary_command":
+"file_command":
+"exit_command":
+"info_command":
+
+
+}'''
     
 CLI_interactive()
-
-
