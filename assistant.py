@@ -1,10 +1,8 @@
 import sys # systeme, permet acceder a l'entree du clavier et a la sortie sur ecran
 import ast
 
-error = False
 file_handle = None
 dico = None
-file1  = False
 def file_command(args):
     global file_handle
     global file1
@@ -13,7 +11,6 @@ def file_command(args):
             return "Il ne faut entrer qu'un seul argument "
         elif len(args) == 1 and file1 == False:
             file_handle = open(args[0], 'r')
-            file1 = True
             return f"Fichier {args} défini comme fichier de travail "
     except:
         return f"Impossible de trouver le fichier {args} "
@@ -25,11 +22,18 @@ def prompt():
 def CLI_interactive():
     prompt()
     for line in sys.stdin:
+        prompt()
         if line == 'exit':
             break
-    else:
-        prompt()
-        yield line
+        else:
+            yield line
+
+def commands_function():
+    for line2 in CLI_interactive():
+        key = line2.split()[0]
+        print(all_commands[key]())
+
+
 
 def dictionary_command(args):
     global dico
@@ -73,7 +77,6 @@ def help_command():
         exit: arrête l'outil""")
 
 def number_input():
-    global error
     list = []
     try:
         num_input = (input("""
@@ -84,26 +87,27 @@ Faites 'Entrer' pour afficher le resulat.""" ))
         convert = [ast.literal_eval(i) for i in tableau]
         return convert
     except ValueError:
-        print('Veuillez entrer des numéro')
-        error = True
+        return None
 
 def sum_command():
     global error
     num_list = number_input()
-    if error == False:
+    if num_list == None:
+        return 'Veuillez entrer des numéro'
+    else:
         sum_result = sum(num_list)
         return sum_result
-    else:
-        error = False
+        
+
         
 def avg_command():
     global error
     num_list = number_input()
-    if error == False:
+    if num_list == None:
+        return 'Veuillez entrer des numéro'
+    else:
         avg = sum(num_list)/len(num_list)
         return avg
-    else:
-        error = False
 
 def info_command(args):
     f = file_handle
@@ -116,24 +120,22 @@ def info_command(args):
 
 def exit_command():
     global file1
-    if file1 == True:
-        file_handle.close()
-        fiel1 = False
-        return "A la prochaine! "
-    else:
-        return "Aucun fichier n'est ouvert actuellement "
+    file_handle.close()
+    return "A la prochaine! "
     
-'''all_commands ={
-"help_command":
-"sum_command":
-"avg_command":
-"search_command":
-"dictionary_command":
-"file_command":
-"exit_command":
-"info_command":
+    
+all_commands ={
+"help1": help_command,
+"sum": sum_command,
+"average": avg_command,
+"search": search_command,
+"dictionary": dictionary_command,
+"file": file_command,
+"exit": exit_command,
+"info": info_command
 
 
-}'''
+}
     
-CLI_interactive()
+#CLI_interactive()
+commands_function()
