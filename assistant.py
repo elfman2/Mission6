@@ -9,7 +9,7 @@ def file_command(args):
     try:
         if len(args) != 1:
             return "Il ne faut entrer qu'un seul argument "
-        elif len(args) == 1 and file1 == False:
+        elif len(args) == 1:
             file_handle = open(args[0], 'r')
             return f"Fichier {args} défini comme fichier de travail "
     except:
@@ -31,7 +31,8 @@ def CLI_interactive():
 def commands_function():
     for line2 in CLI_interactive():
         key = line2.split()
-        print(all_commands[key[0]])
+        command = all_commands[key[0]]
+        print(command(key[1:]))
 
 
 
@@ -59,24 +60,23 @@ def search_command(args):
     else:
         return f"{args} ne se trouve pas dans le dictionnaire"
         
-def help_command():
+def help_command(args):
     
     """
     Prints all the commands in the CLI to the user
     """
-    text = '''file <name>: spécifie le nom d'un fichier sur lequel l'outil doit travailler à partir de ce moment
-        info: montre le nombre de lignes et de caractères du fichier
-        file <name>: spécifie le nom d'un fichier sur lequel l'outil doit travailler à partir de ce moment
-        dictionary: utilise le fichier comme dictionnaire à partir de maintenant
-        search <word>: détermine si le mot est dans le dictionnaire
-        sum <number1> ... <numbern>: calcule la somme des nombres spécifiés
-        avg <number1> ... <numbern>: calcule la moyenne des nombres spécifiés
-        help: montre des instructions à l'utilisateur
-        exit: arrête l'outil'''
+    text = '''
+file <name>: spécifie le nom d'un fichier sur lequel l'outil doit travailler à partir de ce moment
+info: montre le nombre de lignes et de caractères du fichier
+dictionary: utilise le fichier comme dictionnaire à partir de maintenant
+search <word>: détermine si le mot est dans le dictionnaire
+sum <number1> ... <numbern>: calcule la somme des nombres spécifiés
+avg <number1> ... <numbern>: calcule la moyenne des nombres spécifiés
+help: montre des instructions à l'utilisateur
+exit: arrête l'outil'''
     return text
 
-def number_input():
-    list = []
+def number_input(args):
     try:
         num_input = (input("""
 Entrez des numéros.
@@ -88,9 +88,9 @@ Faites 'Entrer' pour afficher le resulat.""" ))
     except ValueError:
         return None
 
-def sum_command():
+def sum_command(args):
     global error
-    num_list = number_input()
+    num_list = number_input(args)
     if num_list == None:
         return 'Veuillez entrer des numéro'
     else:
@@ -99,9 +99,8 @@ def sum_command():
         
 
         
-def avg_command():
-    global error
-    num_list = number_input()
+def avg_command(args):
+    num_list = number_input(args)
     if num_list == None:
         return 'Veuillez entrer des numéro'
     else:
@@ -117,7 +116,7 @@ def info_command(args):
     return f"Il y a {num_lines} lignes et {num_words2} mots."
     
 
-def exit_command():
+def exit_command(args):
     file_handle.close()
     return "A la prochaine! "
     
@@ -135,5 +134,4 @@ all_commands ={
 
 }
     
-#CLI_interactive()
 commands_function()
