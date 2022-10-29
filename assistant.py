@@ -90,12 +90,16 @@ def sum1():
     sum_result = calcul()
     if error == False:
         return sum_result[0]
+    else:
+        error = False
         
 def avg1():
     global error
     sum_result = calcul()
     if error == False:   
         return sum_result[0]/sum_result[1]
+    else:
+        error = False
     
     
 
