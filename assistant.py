@@ -1,40 +1,24 @@
 import sys # systeme, permet acceder a l'entree du clavier et a la sortie sur ecran
 import ast
 
-file_name = None
+
+file_handle = None
 dico = None
 
 def file1(args):
-    global file_name
-    
+    global file_handle
     try:
         if len(args) != 1:
-            return 'Entrez un argument correct '
+            return "Il ne faut entrer qu'un seul argument "
         else:
-            file_name = open(args[0], 'r')
-            return 'Fichier défini comme fichier de travail '
+            file_handle = open(args[0], 'r')
+            return f"Fichier {args} défini comme fichier de travail "
     except:
-        return f"File {args} not found"
-        
-    
+        return f"Impossible de trouver le fichier {args} "
 
 def prompt():
     sys.stdout.write('>')
     sys.stdout.flush()
-
-def dictionary(args):
-    global dico
-    dico = args
-    
-    try:
-        if len(args) != 1:
-            return 'Entrez un argument correct '
-        else:
-            file_name = open(args[0], 'r')
-            return 'Fichier défini comme dictionnaire '
-    except:
-        return f"File {args} not found"
-
 
 def CLI_interactive():
     prompt()
@@ -44,13 +28,35 @@ def CLI_interactive():
     else:
         prompt()
         yield line
+
+def dictionary(args):
+    global dico
+    dictionary2 = {}
+    dico = dictionary2
+    try:
+        if len(args) != 1:
+            return "N'entrez qu'un seul argument "
+        else:
+            with open(args, 'r') as f:
+                for line in f:
+                    key, value = line.split(',')
+                    dictionary2[key] = value
+                return 'Fichier définit comme dictionnaire '
+    except:
+        return f"Impossible de trouver le fichier {args}"
+
+def search(args):
+    if args in dico:
+        return f"{args} se trouve dans le dictionnaire"
+    else:
+        return f"{args} ne se trouve pas dans le dictionnaire"
         
 def help():
     
     """
     Prints all the commands in the CLI to the user
     """
-    print("""
+    return("""
         file <name>: spécifie le nom d'un fichier sur lequel l'outil doit travailler à partir de ce moment
         info: montre le nombre de lignes et de caractères du fichier
         file <name>: spécifie le nom d'un fichier sur lequel l'outil doit travailler à partir de ce moment
@@ -60,43 +66,30 @@ def help():
         avg <number1> ... <numbern>: calcule la moyenne des nombres spécifiés
         help: montre des instructions à l'utilisateur
         exit: arrête l'outil""")
-        
-def sum1():
+
+def calcul():
     list = []
     user_input = (input("""
 Entrez des numéros.
-Note: Après chaque numéro, faites espace au lieu de 'entrer' pour additionner les nombres.
+Note: Après chaque numéro, faites espace pour calculer les nombres.
 Faites 'Entrer' pour afficher le resulat.""" ))
     tableau = user_input.split()
     convert = [ast.literal_eval(i) for i in tableau]
-    x = sum(convert)
-    print(x)  
+    return sum(convert), len(convert)
+
+def sum1():
+    sum_result = calcul()
+    return sum_result[0]
         
 def avg1():
-    list = []
-    user_input = (input("""
-Entrez des numéros.
-Note: Après chaque numéro, faites espace au lieu de 'entrer' pour additionner les nombres.
-Faites 'Entrer' pour trouver la moyenne et afficher le resulat.""" ))
-    tableau = user_input.split()
-    convert = [ast.literal_eval(i) for i in tableau]
-    x = sum(convert)
-    print(x/(len(convert)))
+    sum_result = calcul()
+    return sum_result[0]/sum_result[1]
     
-def search(args):
     
-    dictionary2 = {}
-    with open(dico, 'r') as f:
-        for line in f:
-            key, value = line.split(',')
-            dictionary2[key] = value
-    
-    if args in dictionary2:
-        return f"{args} est dans le dictionnaire"
-    else:
-        return f"{args} n'est pas dans le dictionnaire"
+
         
     
     
 CLI_interactive()
+
 
