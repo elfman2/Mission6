@@ -30,15 +30,14 @@ def CLI_interactive():
 
 def commands_function():
     for line2 in CLI_interactive():
-        key = line2.split()[0]
-        print(all_commands[key]())
+        key = line2.split()
+        print(all_commands[key[0]])
 
 
 
 def dictionary_command(args):
     global dico
     global file_handle
-    global error
     dictionary2 = {}
     dico = dictionary2
     try:
@@ -65,8 +64,7 @@ def help_command():
     """
     Prints all the commands in the CLI to the user
     """
-    print("""
-        file <name>: spécifie le nom d'un fichier sur lequel l'outil doit travailler à partir de ce moment
+    text = '''file <name>: spécifie le nom d'un fichier sur lequel l'outil doit travailler à partir de ce moment
         info: montre le nombre de lignes et de caractères du fichier
         file <name>: spécifie le nom d'un fichier sur lequel l'outil doit travailler à partir de ce moment
         dictionary: utilise le fichier comme dictionnaire à partir de maintenant
@@ -74,7 +72,8 @@ def help_command():
         sum <number1> ... <numbern>: calcule la somme des nombres spécifiés
         avg <number1> ... <numbern>: calcule la moyenne des nombres spécifiés
         help: montre des instructions à l'utilisateur
-        exit: arrête l'outil""")
+        exit: arrête l'outil'''
+    return text
 
 def number_input():
     list = []
@@ -119,13 +118,12 @@ def info_command(args):
     
 
 def exit_command():
-    global file1
     file_handle.close()
     return "A la prochaine! "
     
     
 all_commands ={
-"help1": help_command,
+"help": help_command,
 "sum": sum_command,
 "average": avg_command,
 "search": search_command,
