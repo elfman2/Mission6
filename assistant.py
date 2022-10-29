@@ -11,7 +11,7 @@ def file_command(args):
     try:
         if len(args) != 1:
             return "Il ne faut entrer qu'un seul argument "
-        elif len(args) != 1 and file1 == False:
+        elif len(args) == 1 and file1 == False:
             file_handle = open(args[0], 'r')
             file1 = True
             return f"Fichier {args} défini comme fichier de travail "
@@ -72,34 +72,36 @@ def help_command():
         help: montre des instructions à l'utilisateur
         exit: arrête l'outil""")
 
-def calcul():
+def number_input():
     global error
     list = []
     try:
-        user_input = (input("""
+        num_input = (input("""
 Entrez des numéros.
 Note: Après chaque numéro, faites espace pour calculer les nombres.
 Faites 'Entrer' pour afficher le resulat.""" ))
-        tableau = user_input.split()
+        tableau = num_input.split()
         convert = [ast.literal_eval(i) for i in tableau]
-        return sum(convert), len(convert)
+        return convert
     except ValueError:
         print('Veuillez entrer des numéro')
         error = True
 
 def sum_command():
     global error
-    sum_result = calcul()
+    num_list = number_input()
     if error == False:
-        return sum_result[0]
+        sum_result = sum(num_list)
+        return sum_result
     else:
         error = False
         
 def avg_command():
     global error
-    sum_result = calcul()
-    if error == False:   
-        return sum_result[0]/sum_result[1]
+    num_list = number_input()
+    if error == False:
+        avg = sum(num_list)/len(num_list)
+        return avg
     else:
         error = False
 
