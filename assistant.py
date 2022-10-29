@@ -1,11 +1,11 @@
 import sys # systeme, permet acceder a l'entree du clavier et a la sortie sur ecran
 import ast
+import os
 
 file_handle = None
 dico = None
 def file_command(args):
     global file_handle
-    global file1
     try:
         if len(args) != 1:
             return "Il ne faut entrer qu'un seul argument "
@@ -29,10 +29,14 @@ def CLI_interactive():
             yield line
 
 def commands_function():
-    for line2 in CLI_interactive():
-        key = line2.split()
-        command = all_commands[key[0]]
-        print(command(key[1:]))
+    try:
+        for line2 in CLI_interactive():
+            key = line2.split()
+            command = all_commands[key[0]]
+            print(command(key[1:]))
+    except KeyError:
+        print("Veuillez entrer une commande valide. Pour voir toutes les commandes, entrez 'help' ")
+        commands_function()
 
 
 
@@ -49,13 +53,17 @@ def dictionary_command(args):
             for line in f:
                 key, value = line.split(',')
                 dictionary2[key] = value
+                commands_function()
             return 'Fichier définit comme dictionnaire '
-    except:
-        return f"Impossible de trouver le fichier {args}"
-        error = True
+        
+    except NameError:
+        return f"Veuillez d'abord ouvrir un fichier. Vous pouvez le faire avec la commande file 'file_name'"
+    except TypeError:
+        return f"Impossible de trouver le fichier"
 
 def search_command(args):
-    if args in dico:
+    global dico
+    if args[0] in dico:
         return f"{args} se trouve dans le dictionnaire"
     else:
         return f"{args} ne se trouve pas dans le dictionnaire"
@@ -89,15 +97,12 @@ Faites 'Entrer' pour afficher le resulat.""" ))
         return None
 
 def sum_command(args):
-    global error
     num_list = number_input(args)
     if num_list == None:
         return 'Veuillez entrer des numéro'
     else:
         sum_result = sum(num_list)
         return sum_result
-        
-
         
 def avg_command(args):
     num_list = number_input(args)
@@ -110,10 +115,9 @@ def avg_command(args):
 def info_command(args):
     f = file_handle
     num_lines = len(f.readlines())
-    f.seek(0)
-    num_words  = f.read()
-    num_words2 = len(num_words)
-    return f"Il y a {num_lines} lignes et {num_words2} mots."
+    f.seek(0, os.SEEK_END)
+    num_caracters = f.tell()
+    return f"Il y a {num_lines} lignes et {num_caracters} caractères."
     
 
 def exit_command(args):
