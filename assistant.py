@@ -116,6 +116,8 @@ def exit_command():
     global file1
     if file1 == True:
         file_handle.close()
+        fiel1 = False
+        return "A la prochaine! "
     else:
         return "Aucun fichier n'est ouvert actuellement "
     
