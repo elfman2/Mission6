@@ -1,13 +1,14 @@
 import unittest
-
-
+from unittest.mock import patch
+from io import StringIO
+import assistant as a
 class TestCLI(unittest.TestCase):
 
-    def test_pass(self):
-        self.assertTrue(True)
-
-    def test_fail(self):
-        self.assertEqual('FOO', 'BAR')
+    @patch('sys.stdout', new_callable = StringIO)
+    def test_prompt(self,stdout):
+       a.prompt()
+       expected_out = '> '
+       self.assertEqual(stdout.getvalue(),expected_out)
 
 
 if __name__ == '__main__':
