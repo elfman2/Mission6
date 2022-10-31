@@ -8,7 +8,7 @@ def file_command(args):
     global file_handle
     try:
         if len(args) != 1:
-            return "Il ne faut entrer qu'un seul argument "
+            return "Il faut entrer un seul argument "
         elif len(args) == 1:
             file_handle = open(args[0], 'r')
             return f"Fichier {args} défini comme fichier de travail "
@@ -57,7 +57,7 @@ def dictionary_command(args):
             return 'Fichier définit comme dictionnaire '
         
     except NameError:
-        return f"Veuillez d'abord ouvrir un fichier. Vous pouvez le faire avec la commande file 'file_name'"
+        return f"Error:Veuillez d'abord ouvrir un fichier. Vous pouvez le faire avec la commande file 'file_name'"
     except TypeError:
         return f"Impossible de trouver le fichier"
 
@@ -73,18 +73,19 @@ def help_command(args):
     """
     Prints all the commands in the CLI to the user
     """
-    text = '''
+    text = '''usage: python assistant.py
+    list_of_command:
 file <name>: spécifie le nom d'un fichier sur lequel l'outil doit travailler à partir de ce moment
 info: montre le nombre de lignes et de caractères du fichier
 dictionary: utilise le fichier comme dictionnaire à partir de maintenant
-search <word>: détermine si le mot est dans le dictionnaire
-sum <number1> ... <numbern>: calcule la somme des nombres spécifiés
-avg <number1> ... <numbern>: calcule la moyenne des nombres spécifiés
+search : détermine si le mot est dans le dictionnaire
+sum : calcule la somme des nombres spécifiés
+avg : calcule la moyenne des nombres spécifiés
 help: montre des instructions à l'utilisateur
 exit: arrête l'outil'''
     return text
 
-def number_input(args):
+def number_input():
     try:
         num_input = (input("""
 Entrez des numéros.
@@ -97,20 +98,33 @@ Faites 'Entrer' pour afficher le resulat.""" ))
         return None
 
 def sum_command(args):
-    num_list = number_input(args)
+    '''
+    
+
+    return strings which represent int or float values
+    int when one input is int and float when one input is float
+    int when all the input are int and float when one input is float
+    '''
+    num_list = number_input()
     if num_list == None:
         return 'Veuillez entrer des numéro'
     else:
         sum_result = sum(num_list)
-        return sum_result
+        return str(sum_result)
         
 def avg_command(args):
-    num_list = number_input(args)
+    '''
+    calculate the average between numbers
+    
+    return string which represent float values
+
+    '''
+    num_list = number_input()
     if num_list == None:
         return 'Veuillez entrer des numéro'
     else:
         avg = sum(num_list)/len(num_list)
-        return avg
+        return str(avg)
 
 def info_command(args):
     f = file_handle
@@ -137,5 +151,7 @@ all_commands ={
 
 
 }
-    
+
+if __name__ == '__main__':
+    commands_function()
 commands_function()
