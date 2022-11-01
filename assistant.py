@@ -8,12 +8,12 @@ def file_command(args):
     global file_handle
     try:
         if len(args) != 1:
-            return "Il faut entrer un seul argument "
+            return "Erreur 1: Il faut entrer un seul argument "
         elif len(args) == 1:
             file_handle = open(args[0], 'r')
             return f"Fichier {args} défini comme fichier de travail "
     except:
-        return f"Impossible de trouver le fichier {args} "
+        return f"Erreur 2: Impossible de trouver le fichier {args} "
 
 def prompt():
     sys.stdout.write('>')
@@ -137,7 +137,7 @@ def info_command(args):
 def exit_command(args):
     file_handle.close()
     return "A la prochaine! "
-    
+      
     
 all_commands ={
 "help": help_command,
@@ -154,4 +154,4 @@ all_commands ={
 
 if __name__ == '__main__':
     commands_function()
-commands_function()
+#commands_function()

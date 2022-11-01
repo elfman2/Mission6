@@ -37,3 +37,9 @@ class TestAssistant(unittest.TestCase):
         file = file_command(['testhuhu.dat'])
         expected_out = file.find('Impossible')
         self.assertGreaterEqual(expected_out, 0)
+    #########################
+    def test_file_error1(self):
+        args = None
+        file = file_command(args)
+        expected_out = file.find('Erreur 1')
+        self.assertGreaterEqual(expected_out, 0)
