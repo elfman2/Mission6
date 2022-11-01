@@ -27,19 +27,47 @@ class TestAssistant(unittest.TestCase):
     def test_file_nominal(self):
         args = None
         file = file_command(['test.dat'])
-        print(file)
         expected_out = file.find('Fichier')
         self.assertGreaterEqual(expected_out, 0)
-    ########################
+    
 
-    def test_file_error(self):
-        args = None
+    def test_file_error2(self):
         file = file_command(['testhuhu.dat'])
-        expected_out = file.find('Impossible')
+        expected_out = file.find('Erreur 2')
         self.assertGreaterEqual(expected_out, 0)
-    #########################
+    
     def test_file_error1(self):
-        args = None
-        file = file_command(args)
+        file = file_command([])
         expected_out = file.find('Erreur 1')
         self.assertGreaterEqual(expected_out, 0)
+    ##########################
+    @patch('sys.stdin', StringIO('jhdjshf\n'))
+    def test_commands_function_error3(self):
+        command = commands_function()
+        expected_out = command.find("Erreur 3:")
+        self.assertGreaterEqual(expected_out, 0)
+
+    @patch('sys.stdin', StringIO('help'))
+    def test_command_fonction_nominal(self):
+        command = commands_function()
+        expected_out = command.find('usage')
+        self.assertGreaterEqual(expected_out, 0)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    '''def test_dictionary_command(self):
+        input = dictionary_command([])'''
