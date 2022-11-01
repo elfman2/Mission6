@@ -33,11 +33,10 @@ def commands_function():
         for line2 in CLI_interactive():
             key = line2.split()
             command = all_commands[key[0]]
-            print(command(key[1:]))
+            return command(key[1:])
     except KeyError:
-        print("Veuillez entrer une commande valide. Pour voir toutes les commandes, entrez 'help' ")
+        return f"Erreur 3: Veuillez entrer une commande valide. Pour voir toutes les commandes, entrez 'help' "
         commands_function()
-
 
 
 def dictionary_command(args):
@@ -110,6 +109,7 @@ def sum_command(args):
         return 'Veuillez entrer des numéro'
     else:
         sum_result = sum(num_list)
+        print(str(sum_result))
         return str(sum_result)
         
 def avg_command(args):
@@ -124,6 +124,7 @@ def avg_command(args):
         return 'Veuillez entrer des numéro'
     else:
         avg = sum(num_list)/len(num_list)
+        print(str(avg))
         return str(avg)
 
 def info_command(args):
@@ -135,8 +136,11 @@ def info_command(args):
     
 
 def exit_command(args):
-    file_handle.close()
-    return "A la prochaine! "
+    try:
+        file_handle.close()
+        return "A la prochaine! "
+    except AttributeError:
+        return f"Vous devez ouvrir un fichier pour quitter le programme"
       
     
 all_commands ={
@@ -151,7 +155,5 @@ all_commands ={
 
 
 }
-
 if __name__ == '__main__':
     commands_function()
-#commands_function()
