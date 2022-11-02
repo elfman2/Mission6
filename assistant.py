@@ -69,13 +69,8 @@ exit: arrête l'outil'''
     print(text)
     return text
 
-def number_input():
+def number_input(tableau):
     try:
-        num_input = (input("""
-Entrez des numéros.
-Note: Après chaque numéro, faites espace pour calculer les nombres.
-Faites 'Entrer' pour afficher le resulat.""" ))
-        tableau = num_input.split()
         convert = [ast.literal_eval(i) for i in tableau]
         return convert
     except ValueError:
@@ -88,7 +83,7 @@ def sum_command(args):
     int when one input is int and float when one input is float
     int when all the input are int and float when one input is float
     '''
-    num_list = number_input()
+    num_list = number_input(args)
     if num_list == None:
         return 'Veuillez entrer des numéro'
     else:
@@ -102,7 +97,7 @@ def avg_command(args):
     return string which represent float values
 
     '''
-    num_list = number_input()
+    num_list = number_input(args)
     if num_list == None:
         return 'Veuillez entrer des numéro'
     else:
