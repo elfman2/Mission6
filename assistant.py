@@ -8,11 +8,14 @@ def file_command(args):
     global file_handle
     try:
         if len(args) != 1:
-            return "Erreur 1: Il faut entrer un seul argument "
+            print('Erreur 1: Il faut entrer un seul argument ')
+            return 'Erreur 1: Il faut entrer un seul argument '
         elif len(args) == 1:
             file_handle = open(args[0], 'r')
+            print(f"Fichier {args} défini comme fichier de travail")
             return f"Fichier {args} défini comme fichier de travail "
     except:
+        print(f"Erreur 2: Impossible de trouver le fichier {args}")
         return f"Erreur 2: Impossible de trouver le fichier {args} "
 
 def prompt():
@@ -35,6 +38,7 @@ def commands_function():
             command = all_commands[key[0]]
             return command(key[1:])
     except KeyError:
+        print(f"Erreur 3: Veuillez entrer une commande valide. Pour voir toutes les commandes, entrez 'help' ")
         return f"Erreur 3: Veuillez entrer une commande valide. Pour voir toutes les commandes, entrez 'help' "
         commands_function()
 
@@ -46,6 +50,7 @@ def dictionary_command(args):
     dico = dictionary2
     try:
         if len(args) != 1:
+            print("N'entrez qu'un seul argument ")
             return "N'entrez qu'un seul argument "
         else:
             f = file_handle        
@@ -53,6 +58,8 @@ def dictionary_command(args):
                 key, value = line.split(',')
                 dictionary2[key] = value
                 commands_function()
+            dico = dictionary2
+            print('Fichier définit comme dictionnaire ')
             return 'Fichier définit comme dictionnaire '
         
     except NameError:
@@ -62,8 +69,10 @@ def dictionary_command(args):
 
 def search_command(args):
     global dico
+    print(dico)
     if args[0] in dico:
-        return f"{args} se trouve dans le dictionnaire"
+        print(f"{args} se trouve dans le dictionnaire")
+        #return f"{args} se trouve dans le dictionnaire"
     else:
         return f"{args} ne se trouve pas dans le dictionnaire"
         
