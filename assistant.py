@@ -82,6 +82,7 @@ sum : calcule la somme des nombres spécifiés
 avg : calcule la moyenne des nombres spécifiés
 help: montre des instructions à l'utilisateur
 exit: arrête l'outil'''
+    print(text)
     return text
 
 def number_input():
@@ -157,3 +158,4 @@ all_commands ={
 }
 if __name__ == '__main__':
     commands_function()
+commands_function()
