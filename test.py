@@ -8,13 +8,13 @@ class TestAssistant(unittest.TestCase):
     def test_sum(self):
         args = None
         expected_out = '30'
-        self.assertEqual(sum_command(['10', '10', '10']), expected_out)
+        self.assertEqual(sum_command(['10', '10', '10']), '30')
         
      ############################
     def test_average(self):
         args = None
         expected_out = '5.0'
-        self.assertEqual(avg_command(['-10', '20']), expected_out)
+        self.assertEqual(avg_command(['-10', '20']), '5.0')
     ###########################
     def test_help(self):
         args = None
@@ -40,33 +40,18 @@ class TestAssistant(unittest.TestCase):
         expected_out = file.find('Erreur 1')
         self.assertGreaterEqual(expected_out, 0)
     ##########################
-    @patch('sys.stdin', StringIO('jhdjshf\n'))
-    def test_commands_function_error3(self):
-        command = commands_function()
-        expected_out = command.find("Erreur 3:")
+    
+    ##########################
+    def test_dictionary_command(self):
+        args = None
+        input = dictionary_command(args)
+        expected_out = input.find('Erreur 5:')
         self.assertGreaterEqual(expected_out, 0)
-
-    @patch('sys.stdin', StringIO('help'))
-    def test_command_fonction_nominal(self):
-        command = commands_function()
-        expected_out = command.find('usage')
+    ##########################
+    def test_dictionary_command(self):
+        args = 'fsdde'
+        input = dictionary_command(args)
+        expected_out = input.find('Erreur 4:')
         self.assertGreaterEqual(expected_out, 0)
+        
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    '''def test_dictionary_command(self):
-        input = dictionary_command([])'''
