@@ -5,17 +5,16 @@ from assistant import *
 
 
 class TestAssistant(unittest.TestCase):
-    @patch('sys.stdin', StringIO('10 10\n'))
     def test_sum(self):
         args = None
-        expected_out = '20'
-        self.assertEqual(sum_command(args), expected_out)
-    ############################
-    @patch('sys.stdin', StringIO('-10 20\n'))
+        expected_out = '30'
+        self.assertEqual(sum_command(['10', '10', '10']), expected_out)
+        
+     ############################
     def test_average(self):
         args = None
         expected_out = '5.0'
-        self.assertEqual(avg_command(args), expected_out)
+        self.assertEqual(avg_command(['-10', '20']), expected_out)
     ###########################
     def test_help(self):
         args = None
