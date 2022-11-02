@@ -22,6 +22,8 @@ def commands_function():
             try:
               command = all_commands[key[0]]
               print(command(key[1:]))
+            except SystemExit:
+              raise
             except:
               print (f"Erreur 3: Veuillez entrer une commande valide. Pour voir toutes les commandes, entrez 'help' ")
 
@@ -30,8 +32,8 @@ def dictionary_command(args):
     global file_handle
     dico = {}
     try:
-        if len(args) != 1:
-            return "N'entrez qu'un seul argument "
+        if len(args)!=0:
+            return "Pas d'argment pour dictionary "
         else:
             for line in file_handle:
                 key, value = line.split(',')
@@ -40,7 +42,7 @@ def dictionary_command(args):
     except NameError:
         return f"Error:Veuillez d'abord ouvrir un fichier. Vous pouvez le faire avec la commande file 'file_name'"
     except TypeError:
-        return f"Impossible de trouver le fichier"
+        return f"Veuillez appeler la commande file avant : Impossible de trouver le fichier"
 
 def search_command(args):
     global dico
@@ -81,7 +83,6 @@ Faites 'Entrer' pour afficher le resulat.""" ))
 
 def sum_command(args):
     '''
-    
 
     return strings which represent int or float values
     int when one input is int and float when one input is float
@@ -92,9 +93,8 @@ def sum_command(args):
         return 'Veuillez entrer des numéro'
     else:
         sum_result = sum(num_list)
-        print(str(sum_result))
         return str(sum_result)
-        
+
 def avg_command(args):
     '''
     calculate the average between numbers
@@ -107,7 +107,6 @@ def avg_command(args):
         return 'Veuillez entrer des numéro'
     else:
         avg = sum(num_list)/len(num_list)
-        print(str(avg))
         return str(avg)
 
 def info_command(args):
@@ -116,16 +115,14 @@ def info_command(args):
     f.seek(0, os.SEEK_END)
     num_caracters = f.tell()
     return f"Il y a {num_lines} lignes et {num_caracters} caractères."
-    
 
 def exit_command(args):
-    try:
+    global file_handle
+    if file_handle is not None:
         file_handle.close()
-        return "A la prochaine! "
-    except AttributeError:
-        return f"Vous devez ouvrir un fichier pour quitter le programme"
-      
-    
+    print ("A la prochaine! ")
+    sys.exit(0);
+
 all_commands ={
 "help": help_command,
 "sum": sum_command,
@@ -135,8 +132,6 @@ all_commands ={
 "file": file_command,
 "exit": exit_command,
 "info": info_command
-
-
 }
 if __name__ == '__main__':
-    commands_function()
+   commands_function()
